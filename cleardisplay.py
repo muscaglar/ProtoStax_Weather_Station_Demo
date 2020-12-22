@@ -17,15 +17,17 @@
 import sys
 sys.path.append(r'lib')
 
-import epd2in7b
+import epd2in13
 import time
 from PIL import Image,ImageDraw,ImageFont
 import traceback
 
 try:
-    epd = epd2in7b.EPD()
-    epd.init()
+    epd = epd2in13.EPD()
+
     print("Clear...")
+    epd.init()
+    print("init EPD")
     epd.Clear()
     
     epd.sleep()

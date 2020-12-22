@@ -102,38 +102,45 @@ def main():
             print("Drawing")
             drawblack = ImageDraw.Draw(HBlackimage)
             drawred = ImageDraw.Draw(HRedimage)
-            font24 = ImageFont.truetype('fonts/arial.ttf', 24)
-            font16 = ImageFont.truetype('fonts/arial.ttf', 16)
-            font20 = ImageFont.truetype('fonts/arial.ttf', 20)
-            fontweather = ImageFont.truetype('fonts/meteocons-webfont.ttf', 30)
-            fontweatherbig = ImageFont.truetype('fonts/meteocons-webfont.ttf', 60)
+
+            font24 = ImageFont.truetype('fonts/arial.ttf', 20)
+            font16 = ImageFont.truetype('fonts/arial.ttf', 12)
+            font20 = ImageFont.truetype('fonts/arial.ttf', 16)
+            fontweather = ImageFont.truetype('fonts/meteocons-webfont.ttf', 24)
+            fontweather_small = ImageFont.truetype('fonts/meteocons-webfont.ttf', 20)
+            fontweatherbig = ImageFont.truetype('fonts/meteocons-webfont.ttf', 52)
 
             w1, h1 = font24.getsize(location)
             w2, h2 = font20.getsize(description)
             w3, h3 = fontweatherbig.getsize(weather_icon_dict[weather.get_weather_code()])
 
-            drawblack.text((10, 0), location, font=font24, fill=0)
-            drawblack.text((10 + (w1 / 2 - w2 / 2), 25), description, font=font20, fill=0)
-            drawred.text((264 - w3 - 10, 0), weather_icon_dict[weather.get_weather_code()], font=fontweatherbig, fill=0)
-            drawblack.text((10, 45), "Observed at: " + time.strftime('%I:%M %p', time.localtime(reftime)), font=font16,
+            drawblack.text((5, 5), "Juan's London", font=font24, fill=0)
+            drawblack.text((50 + (w1 / 2 - w2 / 2), 25), description, font=font20, fill=0)
+            drawred.text((210 - w3 - 10, 0), weather_icon_dict[weather.get_weather_code()], font=fontweatherbig, fill=0)
+            drawblack.text((5, 42), "Observed at: " + time.strftime('%I:%M %p', time.localtime(reftime)), font=font16,
                            fill=0)
 
-            tempstr = str("{0}{1}F".format(int(round(temperature['temp'])), u'\u00b0'))
+            tempstr = str("{0}{1}C".format(int(round(temperature['temp'])), u'\u00b0'))
             print(tempstr)
             w4, h4 = font24.getsize(tempstr)
-            drawblack.text((10, 70), tempstr, font=font24, fill=0)
-            drawred.text((10 + w4, 70), "'", font=fontweather, fill=0)
-            drawblack.text((150, 70), str("{0}{1} | {2}{3}".format(int(round(temperature['temp_min'])), u'\u00b0',
+            drawblack.text((10, 55), tempstr, font=font20, fill=0)
+            drawred.text((10 + w4, 55), "'", font=fontweather_small, fill=0)
+            drawblack.text((140, 55), str("{0}{1} | {2}{3}".format(int(round(temperature['temp_min'])), u'\u00b0',
                                                                    int(round(temperature['temp_max'])), u'\u00b0')),
-                           font=font24, fill=0)
+                           font=font20, fill=0)
 
-            drawblack.text((10, 100), str("{} hPA".format(int(round(pressure['press'])))), font=font20, fill=0)
-            drawblack.text((150, 100), str("{}% RH".format(int(round(humidity)))), font=font20, fill=0)
+            drawblack.text((10, 75), str("{} hPA".format(int(round(pressure['press'])))), font=font16, fill=0)
+            drawblack.text((140, 75), str("{}% RH".format(int(round(humidity)))), font=font16, fill=0)
 
-            drawred.text((20, 120), "A", font=fontweather, fill=0)
-            drawred.text((160, 120), "J", font=fontweather, fill=0)
-            drawblack.text((10, 150), time.strftime('%I:%M %p', time.localtime(sunrise)), font=font20, fill=0)
-            drawblack.text((150, 150), time.strftime('%I:%M %p', time.localtime(sunset)), font=font20, fill=0)
+            drawred.text((5, 85), "A", font=fontweather, fill=0)
+            drawred.text((125, 85), "J", font=fontweather, fill=0)
+            drawblack.text((30, 90), time.strftime('%I:%M %p', time.localtime(sunrise)), font=font16, fill=0)
+            drawblack.text((150, 90), time.strftime('%I:%M %p', time.localtime(sunset)), font=font16, fill=0)
+
+            #draw = draw.transpose(Image.ROTATE_180)
+
+            HBlackimage = HBlackimage.rotate(180.0, expand=1)
+            HRedimage = HRedimage.rotate(180.0, expand=1)
 
             epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRedimage))
             time.sleep(2)
@@ -147,7 +154,7 @@ def main():
             exit()
 
         # Sleep for 10 minutes - loop will continue after 10 minutes    
-        time.sleep(600)  # Wake up every 10 minutes to update weather display
+        time.sleep(300)  # Wake up every 10 minutes to update weather display
 
 
 # gracefully exit without a big exception message if possible
