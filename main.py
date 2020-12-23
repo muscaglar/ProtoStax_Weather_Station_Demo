@@ -1,25 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-# *************************************************** 
-#   This is a example program for
-#   a Weather Station using Raspberry Pi B+, Waveshare ePaper Display and ProtoStax enclosure
-#   --> https://www.waveshare.com/product/modules/oleds-lcds/e-paper/2.7inch-e-paper-hat-b.htm
-#   --> https://www.protostax.com/products/protostax-for-raspberry-pi-b
-#
-#   It uses the weather API provided by Open Weather Map (https://openweathermap.org/api) to
-#   query the current weather for a given location and then display it on the ePaper display.
-#   It refreshes the weather information every 10 minutes and updates the display.
-
-#   Written by Sridhar Rajagopal for ProtoStax.
-#   BSD license. All text above must be included in any redistribution
-# *
 import sys
-
-sys.path.append(r'lib')
-
 import signal
 import epd2in13
+import epdconfig
 import time
 from PIL import Image, ImageDraw, ImageFont
 import traceback
@@ -103,12 +88,12 @@ def main():
             drawblack = ImageDraw.Draw(HBlackimage)
             drawred = ImageDraw.Draw(HRedimage)
 
-            font24 = ImageFont.truetype('fonts/arial.ttf', 20)
-            font16 = ImageFont.truetype('fonts/arial.ttf', 12)
-            font20 = ImageFont.truetype('fonts/arial.ttf', 16)
-            fontweather = ImageFont.truetype('fonts/meteocons-webfont.ttf', 24)
-            fontweather_small = ImageFont.truetype('fonts/meteocons-webfont.ttf', 20)
-            fontweatherbig = ImageFont.truetype('fonts/meteocons-webfont.ttf', 52)
+            font24 = ImageFont.truetype('/root/ProtoStax_Weather_Station_Demo/arial.ttf', 20)
+            font16 = ImageFont.truetype('/root/ProtoStax_Weather_Station_Demo/arial.ttf', 12)
+            font20 = ImageFont.truetype('/root/ProtoStax_Weather_Station_Demo/arial.ttf', 16)
+            fontweather = ImageFont.truetype('/root/ProtoStax_Weather_Station_Demo/meteocons-webfont.ttf', 24)
+            fontweather_small = ImageFont.truetype('/root/ProtoStax_Weather_Station_Demo/meteocons-webfont.ttf', 20)
+            fontweatherbig = ImageFont.truetype('/root/ProtoStax_Weather_Station_Demo/meteocons-webfont.ttf', 52)
 
             w1, h1 = font24.getsize(location)
             w2, h2 = font20.getsize(description)
